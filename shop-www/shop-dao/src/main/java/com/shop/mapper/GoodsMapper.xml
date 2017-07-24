@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.dao.GoodsDao">
+
+	<sql id="Goods_Columns">
+		t.id, t.`name`, t.image, t.caption, t.price, t.market_price,
+		t.sales, t.is_top, t.create_date, t.score
+	</sql>
+
+	<select id="selectForPage" resultType="com.shop.core.vo.GoodsVo" >
+		SELECT
+			<include refid="Goods_Columns" />
+		FROM
+			xx_goods t
+		<where>
+			is_marketable = 1
+			<if test="@Ognl@isNotEmpty(keyword)">
+			  AND (t.`name` LIKE '%${keyword}%'
+				OR t.caption LIKE '%${keyword}%'
+				OR t.keyword LIKE '%${keyword}%')
+			</if>
+
+			<if test="@Ognl@isNotEmpty(startPrice)">
+				AND t.price >= #{startPrice}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(endPrice)">
+				AND t.price &lt;= #{endPrice}
+			</if>
+		</where>
+
+	</select>
+
+	<select id="list" resultType="com.shop.core.vo.GoodsVo" >
+		SELECT
+			<include refid="Goods_Columns"/>
+		FROM
+		xx_goods t
+		<where>
+			is_marketable = 1 AND t.product_category = #{productCategoryId}
+			<if test="@Ognl@isNotEmpty(keyword)">
+				AND (t.`name` LIKE '%${keyword}%'
+				OR t.caption LIKE '%${keyword}%'
+				OR t.keyword LIKE '%${keyword}%')
+			</if>
+
+			<if test="@Ognl@isNotEmpty(startPrice)">
+				AND price >= #{startPrice}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(endPrice)">
+				AND price &lt;= #{endPrice}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue0)">
+				AND attribute_value0 = #{attributeValue0}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue1)">
+				AND attribute_value1 = #{attributeValue1}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue2)">
+				AND attribute_value2 = #{attributeValue2}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue3)">
+				AND attribute_value3 = #{attributeValue3}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(brandId)">
+				AND brand = #{brandId}
+			</if>
+
+		</where>
+
+	</select>
+
+	<select id="findOtherList" resultType="com.shop.core.vo.GoodsVo" >
+		SELECT
+		<include refid="Goods_Columns"/>
+		FROM
+		xx_goods t left join xx_product_category t2 on t.product_category = t2.id
+		<where>
+			is_marketable = 1 AND tree_path like '${treePath}%' and grade = 2
+			<if test="@Ognl@isNotEmpty(keyword)">
+				AND (t.`name` LIKE '%${keyword}%'
+				OR t.caption LIKE '%${keyword}%'
+				OR t.keyword LIKE '%${keyword}%')
+			</if>
+
+			<if test="@Ognl@isNotEmpty(startPrice)">
+				AND price >= #{startPrice}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(endPrice)">
+				AND price &lt;= #{endPrice}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue0)">
+				AND attribute_value0 = #{attributeValue0}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue1)">
+				AND attribute_value1 = #{attributeValue1}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue2)">
+				AND attribute_value2 = #{attributeValue2}
+			</if>
+
+			<if test="@Ognl@isNotEmpty(attributeValue3)">
+				AND attribute_value3 = #{attributeValue3}
+			</if>
+			<if test="@Ognl@isNotEmpty(brandId)">
+				AND brand = #{brandId}
+			</if>
+		</where>
+
+	</select>
+
+
+	
+</mapper>

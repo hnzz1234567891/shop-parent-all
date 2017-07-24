@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.dao.CartItemDao">
+	
+	<resultMap id="RM_CartItem" type="CartItem">
+		<id property="id" column="id" />
+		<result property="quantity" column="quantity" />
+		<result property="cart" column="cart" />
+		<association property="productInfo" javaType="Product">
+			<id property="id" column="pid" />
+			<result property="allocatedStock" column="allocated_stock" />
+			<result property="price" column="price" />
+			<result property="goods" column="goods" />
+			<result property="specificationValues" column="specification_values" />
+			<result property="sn" column="sn" />
+			<result property="rewardPoint" column="reward_point" />
+			<result property="exchangePoint" column="exchange_point" />
+			<result property="stock" column="stock" />
+			<result property="name" column="name" />
+			<result property="thumbnail" column="thumbnail" />
+			<result property="weight" column="weight" />
+			<result property="type" column="type" />
+			<result property="isDelivery" column="is_delivery" />
+		</association>
+	</resultMap>
+	
+	<sql id="CartItem_Columns">
+		c.id, c.quantity, c.cart, c.modify_date, p.allocated_stock, p.id as pid, p.sn,
+		p.market_price, p.price, p.goods, p.specification_values,
+		p.stock, p.reward_point, p.exchange_point, g.`name`,
+		g.image as thumbnail, g.weight, g.type, g.is_delivery
+	</sql>
+	
+	<select id="selectForPage" resultMap="RM_CartItem" >
+		SELECT
+			<include refid="CartItem_Columns" />
+		FROM
+			xx_cart_item c
+		LEFT JOIN xx_product p ON c.product = p.id
+		LEFT JOIN xx_goods g ON p.goods = g.id
+		WHERE
+			cart = #{cartId} and c.version = 0
+	</select>
+	
+	<select id="findByIds" resultMap="RM_CartItem" >
+		SELECT
+			<include refid="CartItem_Columns" />
+		FROM
+			xx_cart_item c
+		LEFT JOIN xx_product p ON c.product = p.id
+		LEFT JOIN xx_goods g ON p.goods = g.id
+		WHERE
+			c.id in (${ids}) and c.version = 0 AND cart = #{cartId}
+		ORDER BY c.modify_date desc
+	</select>
+</mapper>

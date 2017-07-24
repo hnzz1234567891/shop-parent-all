@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.shop.dao.ReceiverDao">
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO xx_receiver (
+			create_date,
+			modify_date,
+			version,
+			address,
+			area_name,
+			consignee,
+			is_default,
+			phone,
+			zip_code,
+			area,
+			member
+		) VALUES (
+			#{createDate},
+			#{modifyDate},
+			0,
+			#{address},
+			#{areaName},
+			#{consignee},
+			#{isDefault},
+			#{phone},
+			#{zipCode},
+			#{area},
+			#{member}
+		)
+	</insert>
+
+</mapper>

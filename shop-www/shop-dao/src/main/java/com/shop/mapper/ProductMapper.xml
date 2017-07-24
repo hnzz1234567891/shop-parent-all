@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.dao.ProductDao" >
+
+
+	<sql id="Product_Columns">
+		id, allocated_stock, exchange_point, is_default, market_price,
+		price, reward_point,sn,specification_values,stock,goods
+	</sql>
+
+	<select id="findDefaultProduct" resultType="product">
+		SELECT
+			<include refid="Product_Columns" />
+		FROM xx_product t
+		WHERE
+			goods = #{goodsId} AND is_default = 1;
+	</select>
+
+	<select id="findGoodsProducts" resultType="product">
+		SELECT
+		<include refid="Product_Columns" />
+		FROM xx_product t
+		WHERE
+		goods = #{goodsId};
+	</select>
+
+</mapper>

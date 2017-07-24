@@ -1,0 +1,21 @@
+<!DOCTYPE configuration    
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"    
+    "C:\Users\TW\.m2\repository\org\mybatis\mybatis\3.4.0\mybatis-3.4.0\org\apache\ibatis\builder\xml/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<settings>
+		<!-- 驼峰写法对应数据库字段的下划线 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	
+	<typeAliases>
+		<package name="com.shop.core.model"/>
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+			<property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect"/>
+		</plugin>
+	</plugins>
+</configuration>

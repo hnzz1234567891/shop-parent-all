@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.dao.OrderItemDao">
+	
+	<!-- insert into abc (id, name) values(1, 2), (3,5), (3,5), (3,5), (3,5) -->
+	<insert id="insertBatch">
+		INSERT INTO xx_order_item (
+			create_date,
+			modify_date,
+			version,
+			is_delivery,
+			NAME,
+			price,
+			quantity,
+			returned_quantity,
+			shipped_quantity,
+			sn,
+			specifications,
+			thumbnail,
+			type,
+			weight,
+			orders,
+			product
+		) VALUES
+		<foreach collection="orderItems" item="item" separator=",">
+				(
+				NOW(),
+				NOW(),
+				0,
+				#{item.isDelivery},
+				#{item.name},
+				#{item.price},
+				#{item.quantity},
+				#{item.returnedQuantity},
+				#{item.shippedQuantity},
+				#{item.sn},
+				#{item.specifications},
+				#{item.thumbnail},
+				#{item.type},
+				#{item.weight},
+				#{item.orders},
+				#{item.product}
+			)
+		</foreach>
+	</insert>	
+	
+	
+</mapper>
